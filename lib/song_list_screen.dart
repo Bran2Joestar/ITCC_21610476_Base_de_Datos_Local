@@ -1,3 +1,4 @@
+import 'dart:io'; // Asegúrate de importar esta librería
 import 'package:flutter/material.dart';
 import 'database_helper.dart';
 
@@ -47,6 +48,8 @@ class _SongListScreenState extends State<SongListScreen> {
         'artist': song['artist'],
         'album': song['album'],
         'path': song['path'],
+        'photo': song['photo'], // Añadir la foto
+        'likes': song['likes'], // Añadir los likes
       },
     );
   }
@@ -59,6 +62,11 @@ class _SongListScreenState extends State<SongListScreen> {
         itemCount: _songs.length,
         itemBuilder: (context, index) {
           final song = _songs[index];
+          String imagePath = song['photo'];
+
+          // Verificar si el archivo de imagen existe
+          bool imageExists = File(imagePath).existsSync();
+
           return Card(
             margin: const EdgeInsets.all(8.0),
             child: InkWell(
@@ -67,7 +75,14 @@ class _SongListScreenState extends State<SongListScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
-                    Icon(Icons.music_note, size: 80, color: Colors.white),
+                    // Cargar la imagen o mostrar un icono de error si no existe
+                    imageExists
+                        ? Image.file(File(imagePath), width: 50, height: 50)
+                        : Icon(
+                          Icons.error,
+                          size: 50,
+                          color: Colors.red,
+                        ), // Icono si no existe la imagen
                     const SizedBox(width: 10),
                     Expanded(
                       child: Column(

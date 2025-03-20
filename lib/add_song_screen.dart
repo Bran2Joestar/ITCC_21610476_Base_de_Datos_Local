@@ -13,25 +13,26 @@ class _AddSongScreenState extends State<AddSongScreen> {
   final TextEditingController artistController = TextEditingController();
   final TextEditingController albumController = TextEditingController();
   final TextEditingController pathController = TextEditingController();
+  final TextEditingController photoController =
+      TextEditingController(); // Para la ubicación de la foto
 
-  Future<void> _saveSong() async {
+  Future<void> _addSong() async {
     final song = {
       'title': titleController.text,
       'artist': artistController.text,
       'album': albumController.text,
       'path': pathController.text,
+      'photo': photoController.text, // Agregar la ubicación de la foto
+      'likes': 0, // Por defecto
     };
     await DatabaseHelper.instance.insertSong(song);
-
-    if (mounted) {
-      Navigator.pop(context);
-    }
+    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Añadir Canción')),
+      appBar: AppBar(title: const Text('Agregar Canción')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -54,8 +55,14 @@ class _AddSongScreenState extends State<AddSongScreen> {
                 labelText: 'Ubicación del archivo',
               ),
             ),
+            TextField(
+              controller: photoController,
+              decoration: const InputDecoration(
+                labelText: 'Ubicación de la foto',
+              ), // Campo para la foto
+            ),
             const SizedBox(height: 20),
-            ElevatedButton(onPressed: _saveSong, child: const Text('Guardar')),
+            ElevatedButton(onPressed: _addSong, child: const Text('Agregar')),
           ],
         ),
       ),

@@ -13,6 +13,8 @@ class _EditSongScreenState extends State<EditSongScreen> {
   final TextEditingController artistController = TextEditingController();
   final TextEditingController albumController = TextEditingController();
   final TextEditingController pathController = TextEditingController();
+  final TextEditingController photoController =
+      TextEditingController(); // Para la ubicación de la foto
 
   int? songId;
 
@@ -26,6 +28,7 @@ class _EditSongScreenState extends State<EditSongScreen> {
     artistController.text = args['artist'];
     albumController.text = args['album'];
     pathController.text = args['path'];
+    photoController.text = args['photo']; // Cargar la ubicación de la foto
   }
 
   Future<void> _updateSong() async {
@@ -35,11 +38,11 @@ class _EditSongScreenState extends State<EditSongScreen> {
       'artist': artistController.text,
       'album': albumController.text,
       'path': pathController.text,
+      'photo': photoController.text, // Agregar la ubicación de la foto
+      'likes': 0, // Mantener el valor de likes
     };
     await DatabaseHelper.instance.updateSong(song);
-
-    // Regresar a la pantalla anterior y actualizar la lista
-    Navigator.pop(context, true); // Pasar un valor true para indicar un cambio
+    Navigator.pop(context, true);
   }
 
   @override
@@ -67,6 +70,12 @@ class _EditSongScreenState extends State<EditSongScreen> {
               decoration: const InputDecoration(
                 labelText: 'Ubicación del archivo',
               ),
+            ),
+            TextField(
+              controller: photoController,
+              decoration: const InputDecoration(
+                labelText: 'Ubicación de la foto',
+              ), // Campo para la foto
             ),
             const SizedBox(height: 20),
             ElevatedButton(

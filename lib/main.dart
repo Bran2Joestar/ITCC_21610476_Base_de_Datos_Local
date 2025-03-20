@@ -1,6 +1,5 @@
 import 'package:base_datos_musica/edit_song_screen.dart';
 import 'package:flutter/material.dart';
-import 'database_helper.dart';
 import 'song_list_screen.dart';
 import 'add_song_screen.dart';
 import 'player_screen.dart';
@@ -32,6 +31,8 @@ class MusicPlayerApp extends StatelessWidget {
             artist: args['artist'],
             album: args['album'],
             path: args['path'],
+            photo: args['photo'], // Añadir este parámetro
+            likes: args['likes'], // Añadir este parámetro
           );
         },
       },

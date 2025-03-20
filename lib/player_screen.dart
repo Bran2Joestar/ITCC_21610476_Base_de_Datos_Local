@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 class PlayerScreen extends StatelessWidget {
@@ -5,6 +6,8 @@ class PlayerScreen extends StatelessWidget {
   final String artist;
   final String album;
   final String path;
+  final String photo; // Nueva propiedad para la foto
+  final int likes; // Nueva propiedad para los likes
 
   const PlayerScreen({
     super.key,
@@ -12,6 +15,8 @@ class PlayerScreen extends StatelessWidget {
     required this.artist,
     required this.album,
     required this.path,
+    required this.photo, // Añadir el parámetro
+    required this.likes, // Añadir el parámetro
   });
 
   @override
@@ -25,7 +30,14 @@ class PlayerScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Icon(Icons.music_note, size: 100, color: Colors.white),
+              // Mostrar la imagen de la canción
+              photo.isNotEmpty && File(photo).existsSync()
+                  ? Image.file(File(photo), width: 100, height: 100)
+                  : const Icon(
+                    Icons.music_note,
+                    size: 100,
+                    color: Colors.white,
+                  ),
               const SizedBox(height: 20),
               Text(
                 title,
@@ -45,6 +57,13 @@ class PlayerScreen extends StatelessWidget {
               const SizedBox(height: 5),
               Text(
                 album,
+                style: const TextStyle(fontSize: 16, color: Colors.grey),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 10),
+              // Mostrar la cantidad de likes
+              Text(
+                'Likes: $likes',
                 style: const TextStyle(fontSize: 16, color: Colors.grey),
                 textAlign: TextAlign.center,
               ),
